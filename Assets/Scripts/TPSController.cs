@@ -31,6 +31,8 @@ public class TPSController : MonoBehaviour
     [SerializeField] private Transform _lookAtCamera;
     [SerializeField] private float _cameraSensibility = 10;
     private float _xRotation;
+    [SerializeField] private GameObject _normalCamera;
+    [SerializeField] private GameObject _aimCamera;
 
     void Awake()
     {
@@ -64,6 +66,17 @@ public class TPSController : MonoBehaviour
         }
 
         TPSMovemement();
+
+        if (_aimAction.WasPressedThisFrame())
+        {
+            _normalCamera.SetActive(false);
+            _aimCamera.SetActive(true);
+        }
+        else if (_aimAction.WasReleasedThisFrame())
+        {
+            _normalCamera.SetActive(true);
+            _aimCamera.SetActive(false);
+        }
     }
 
     void TPSMovemement()
