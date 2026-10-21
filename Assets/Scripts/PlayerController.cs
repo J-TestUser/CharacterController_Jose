@@ -62,6 +62,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _gravity = Physics.gravity.y;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
