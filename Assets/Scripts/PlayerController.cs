@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _movementSpeed = 10;
     [SerializeField] private float _jumpHeight = 2;
     [SerializeField] private float _pushForce = 5;
+    [SerializeField] private float _throwForce = 20;
     
     //Specific Variables
     private float _turnSmoothVelocity = 10;
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private InputAction _jumpAction;
     private InputAction _aimAction;
     private InputAction _grabAction;
+    private InputAction _attackAction;
 
     //Gravity Controll
     private float _gravity;
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
         _jumpAction = InputSystem.actions["Jump"];
         _aimAction = InputSystem.actions["Aim"];
         _grabAction = InputSystem.actions["Interact"];
+        _attackAction = InputSystem.actions["Attack"];
 
         _cameraTransform = Camera.main.transform;
     }
@@ -86,6 +89,10 @@ public class PlayerController : MonoBehaviour
         if (_grabAction.WasPressedThisFrame())
         {
             GrabItems();
+        }
+        if (_attackAction.WasPressedThisFrame())
+        {
+            ThrowObject();
         }
     }
 
@@ -216,6 +223,19 @@ public class PlayerController : MonoBehaviour
             _grabbedObject.transform.SetParent(null);
             _grabbedObject = null;
             
+
+        }
+    }
+
+    void ThrowObject()
+    {
+        if(_grabbedObject != null)
+        {
+            Rigidbody _objectRigidBody = _grabbedObject.GetComponent<Rigidbody>();
+            _objectRigidBody.isKinematic = false;
+            _objectRigidBody.AddForce(_cameraTransform.forward * _throwForce, ForceMode.Impulse);
+            _grabbedObject.transform.SetParent(null);
+            _grabbedObject = null;
 
         }
     }
