@@ -236,8 +236,8 @@ public class PlayerController : MonoBehaviour
         {
             Rigidbody _objectRigidBody = _grabbedObject.GetComponent<Rigidbody>();
             _objectRigidBody.isKinematic = false;
-            _objectRigidBody.AddForce(_cameraTransform.forward * _throwForce, ForceMode.Impulse);
             _grabbedObject.transform.SetParent(null);
+            _objectRigidBody.AddForce(_cameraTransform.forward * _throwForce, ForceMode.Impulse);            
             _grabbedObject = null;
 
         }
