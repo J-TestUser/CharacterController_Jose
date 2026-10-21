@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     //General Variables
     [SerializeField] private float _movementSpeed = 10;
     [SerializeField] private float _jumpHeight = 2;
+    [SerializeField] private float _pushForce = 5;
     
     //Specific Variables
     private float _turnSmoothVelocity = 10;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _moveInput;
     private InputAction _jumpAction;
     private InputAction _aimAction;
+    private InputAction _grabAction;
 
     //Gravity Controll
     private float _gravity;
@@ -35,6 +37,11 @@ public class PlayerController : MonoBehaviour
     //Camera
     private Transform _cameraTransform;
 
+    //Grab
+    private GameObject _grabbedObject;
+    [SerializeField] private Transform _handTransform;
+    [SerializeField] private float _handRadius = 1;
+
     void Awake()
     {
         _characterController = GetComponent <CharacterController>();
@@ -43,6 +50,7 @@ public class PlayerController : MonoBehaviour
         _moveAction = InputSystem.actions["Move"];
         _jumpAction = InputSystem.actions["Jump"];
         _aimAction = InputSystem.actions["Aim"];
+        _grabAction = InputSystem.actions["Interact"];
 
         _cameraTransform = Camera.main.transform;
     }
@@ -74,11 +82,11 @@ public class PlayerController : MonoBehaviour
         else
         {
             ThirdPersonMovement();  
+        }    
+        if (_grabAction.WasPressedThisFrame())
+        {
+            GrabItems();
         }
-
- 
-
-        
     }
 
     void TopDownMovement()
@@ -165,9 +173,59 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if(hit.gameObject.CompareTag("Pushable"))
+        {
+            Rigidbody _rBody = hit.gameObject.GetComponent<Rigidbody>();
+
+            Vector3 pushDirection = hit.moveDirection;
+            pushDirection.y = 0;
+
+           // _rBody.AddForce(pushDirection * _pushForce, ForceMode.Force); //Funciona bien con objetos redondos (pelotas)
+           _rBody.linearVelocity = pushDirection * _pushForce / _rBody.mass;
+        }
+    }
+
+    void GrabItems()
+    {
+        if(_grabbedObject == null)
+        {
+            Collider[] objectsToGrab = Physics.OverlapSphere(_handTransform.position, _handRadius);
+            
+            foreach(Collider item in objectsToGrab)
+            {
+                if(item.CompareTag("Pushable"))
+                {
+                    _grabbedObject = item.gameObject;
+                    _grabbedObject.transform.SetParent(_handTransform);
+                    _grabbedObject.transform.position = _handTransform.position;
+                    _grabbedObject.transform.rotation = _handTransform.rotation;
+                    Rigidbody _objectRigidBody = _grabbedObject.GetComponent<Rigidbody>();
+                    _objectRigidBody.isKinematic = true;
+                    //_objectRigidBody.constraints = RigidbodyConstraints.None;
+
+                    return;
+                }
+            }
+        }
+        else
+        {   
+            Rigidbody _objectRigidBody = _grabbedObject.GetComponent<Rigidbody>();
+            _objectRigidBody.isKinematic = false;
+            _grabbedObject.transform.SetParent(null);
+            _grabbedObject = null;
+            
+
+        }
+    }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_sensorTransform.position, _sensorRadius);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_handTransform.position, _handRadius);
     }
 }
