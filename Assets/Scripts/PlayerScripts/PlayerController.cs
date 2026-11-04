@@ -192,8 +192,19 @@ public class PlayerController : MonoBehaviour
             Vector3 pushDirection = hit.moveDirection;
             pushDirection.y = 0;
 
+            Debug.Log(pushDirection);
+
            // _rBody.AddForce(pushDirection * _pushForce, ForceMode.Force); //Funciona bien con objetos redondos (pelotas)
            _rBody.linearVelocity = pushDirection * _pushForce / _rBody.mass;
+        }
+
+        if(hit.gameObject.CompareTag("Enemy"))
+        {
+            Enemy enemyScript = hit.gameObject.GetComponent<Enemy>();
+            if(enemyScript != null)
+            {
+                enemyScript.TakeDamage(5);
+            }
         }
     }
 
