@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     public  float _maxHealth;
     public float _attackDamage;
@@ -32,8 +32,10 @@ public class Enemy : MonoBehaviour
         Debug.Log("Ataque generico");
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage()
     {
         Debug.Log("Recibiendo daño");
     }
+
+    
 }

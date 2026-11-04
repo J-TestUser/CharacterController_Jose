@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
 
     //General Variables
@@ -198,14 +198,25 @@ public class PlayerController : MonoBehaviour
            _rBody.linearVelocity = pushDirection * _pushForce / _rBody.mass;
         }
 
-        if(hit.gameObject.CompareTag("Enemy"))
+       /* if(hit.gameObject.CompareTag("Enemy"))
         {
             Enemy enemyScript = hit.gameObject.GetComponent<Enemy>();
             if(enemyScript != null)
             {
                 enemyScript.TakeDamage(5);
             }
+        }*/
+
+        IDamageable damageable = hit.gameObject.GetComponent<IDamageable>();
+        if(damageable != null)
+        {
+            damageable.TakeDamage();
         }
+    }
+
+    public void TakeDamage()
+    {
+        Debug.Log("DAÑO");
     }
 
     void GrabItems()
