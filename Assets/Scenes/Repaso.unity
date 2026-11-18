@@ -982,7 +982,7 @@ Animator:
   m_GameObject: {fileID: 517597967}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3464355608ec451499151e2f5db8327b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 78015319348efad48993a0b8383d4576, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1532,7 +1532,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 56d3a45f7aa3992458ced4b3cc6a4c59, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.928
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 56d3a45f7aa3992458ced4b3cc6a4c59, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1592,6 +1592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 840347285}
   - component: {fileID: 840347287}
+  - component: {fileID: 840347288}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1643,6 +1644,28 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.59, z: 0}
+--- !u!114 &840347288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840347279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25ad005221936594cb8c1acfd73b9123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerRepaso
+  _movementSpeed: 10
+  _jumpForce: 4
+  _smoothTime: 0.2
+  _gravity: 0
+  _playerGravity: {x: 0, y: 0, z: 0}
+  _sensor: {fileID: 2076035282}
+  _sensorRadius: 0.5
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &844505085
 GameObject:
   m_ObjectHideFlags: 0
