@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         }
     }
 
-    void AimMovement()
+    void AimMovement() //mas nota en examen
     {
         Vector3 direction = new Vector3 (_moveInput.x, 0 , _moveInput.y);
 
