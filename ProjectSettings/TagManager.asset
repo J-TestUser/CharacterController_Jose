@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Pushable
   - Enemy
+  - Test
+  - Test1
   layers:
   - Default
   - TransparentFX
